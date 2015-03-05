@@ -7,12 +7,16 @@ public class Player : MonoBehaviour
 
     public Transform[] angels;
     public GameObject angelsAttacking;
+    public AudioSource surprise;
+    public AudioSource ambient;
     private bool triggered = false;
+    private bool done = false;
 
-	void Update () {
+	void Update ()
+	{
         var ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
-	    if (Physics.Raycast(ray, out hit, 1000))
+	    if (!done && Physics.Raycast(ray, out hit, 1000))
 	    {
 	        if (hit.collider.transform.name.ToLower().Contains("trigger"))
 	        {
@@ -23,6 +27,10 @@ public class Player : MonoBehaviour
 	        {
 	            triggered = false;
 	        }
+	    }
+	    if (!surprise.isPlaying && done)
+	    {
+            Application.LoadLevel("Oculus_Spook");
 	    }
 	}
 
@@ -38,6 +46,9 @@ public class Player : MonoBehaviour
             {
                 angel.parent.gameObject.SetActive(false);
                 angelsAttacking.SetActive(true);
+                ambient.Stop();
+                surprise.Play();
+                done = true;
             }
         }
     }
