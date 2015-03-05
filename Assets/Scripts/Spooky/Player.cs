@@ -1,56 +1,44 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class Player : MonoBehaviour
 {
 
     public Transform[] angels;
-    private int counter = 0;
-
-    void Awake()
-    {
-        
-    }
+    public GameObject angelsAttacking;
+    private bool triggered = false;
 
 	void Update () {
         var ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
-	    if (Physics.Raycast(ray, out hit, 100000))
+	    if (Physics.Raycast(ray, out hit, 1000))
 	    {
 	        if (hit.collider.transform.name.ToLower().Contains("trigger"))
 	        {
-	            switch (counter)
-	            {
-	                case 0:
-                        lookAtPlayer();
-	                    break;
-                    case 1:
-                        //moveCloser();
-                        break;
-                    case 2:
-                        //moveCloser();
-                        break;
-                    default:
-	                    break;
-	            }
-	            ++counter;
+	            if (!triggered) moveCloser();
+	            triggered = true;
+	        }
+	        else
+	        {
+	            triggered = false;
 	        }
 	    }
 	}
-
-    private void lookAtPlayer()
-    {
-        foreach (var angel in angels)
-        {
-            angel.LookAt(transform.position);
-        }
-    }
 
     private void moveCloser()
     {
         foreach (var angel in angels)
         {
-            angel.Translate(angel.forward + new Vector3(20f, 0f, 20f));
+            angel.LookAt(transform.position);
+            var multiplier = 1;
+            if (angel.transform.name.ToLower().Contains("reverse")) multiplier = -1;
+            angel.Translate(angel.forward * multiplier * 2f);
+            if (Math.Abs(angel.position.x - transform.position.x) <= 10f && Math.Abs(angel.position.z - transform.position.z) <= 10f)
+            {
+                angel.parent.gameObject.SetActive(false);
+                angelsAttacking.SetActive(true);
+            }
         }
     }
 }
