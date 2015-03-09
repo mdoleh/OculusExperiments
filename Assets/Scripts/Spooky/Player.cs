@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
 	    {
 	        if (hit.collider.transform.name.ToLower().Contains("trigger"))
 	        {
+
+                Debug.Log("trigger found");
 	            if (!triggered) moveCloser();
 	            triggered = true;
 	        }
@@ -51,5 +53,6 @@ public class Player : MonoBehaviour
                 done = true;
             }
         }
+        Debug.Log("angels moved");
     }
 }
