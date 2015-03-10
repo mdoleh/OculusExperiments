@@ -5,21 +5,28 @@ using UnityEngine.UI;
 public class CardboardButton : MonoBehaviour {
     
     public GameObject[] buttons;
+    private GameObject currentSelection;
 
 	void Update () {
         var ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 1000))
+        if (Physics.Raycast(ray, out hit, 100000))
         {
             if (hit.collider.transform.name.ToLower().Contains("button"))
             {
-                SetColorToYellow(hit.collider.gameObject);
+                currentSelection = hit.collider.gameObject;
+                ResetBackgroundColors();
+                SetColorToYellow(currentSelection);
             }
             else
             {
                 ResetBackgroundColors();
             }
         }
+        if (Cardboard.SDK.CardboardTriggered)
+	    {
+	        currentSelection.GetComponent<Button>().Click();
+	    }
 	}
 
     private void ResetBackgroundColors()
