@@ -31,7 +31,7 @@ public class InputListener : MonoBehaviour
 	    }
         else if (Input.GetKeyUp(KeyCode.Return))
         {
-            buttons[currentIndex].GetComponent<Button>().Click();
+            buttons[currentIndex].GetComponent<ButtonScript>().Click();
         }
 	}
 

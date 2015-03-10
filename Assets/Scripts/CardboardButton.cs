@@ -25,7 +25,7 @@ public class CardboardButton : MonoBehaviour {
         }
         if (Cardboard.SDK.CardboardTriggered)
 	    {
-	        currentSelection.GetComponent<Button>().Click();
+	        currentSelection.GetComponent<ButtonScript>().Click();
 	    }
 	}
 
