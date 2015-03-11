@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
             angel.LookAt(transform.position);
             var multiplier = 1;
             if (angel.transform.name.ToLower().Contains("reverse")) multiplier = -1;
-            angel.Translate(angel.forward * multiplier * 2f);
+            angel.Translate(angel.forward * multiplier * 8f);
             if (Math.Abs(angel.position.x - transform.position.x) <= 10f && Math.Abs(angel.position.z - transform.position.z) <= 10f)
             {
                 angel.parent.gameObject.SetActive(false);
